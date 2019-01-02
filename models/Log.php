@@ -79,7 +79,6 @@ class Log
         $line = sprintf("%s\t%s\t%s%s", $levelName, date('Y-m-d h:i:s', time()), $message, PHP_EOL);
 
         $filePath = self::getFilePath();
-        echo $filePath;
 
         if (is_writable(dirname($filePath))) {
 

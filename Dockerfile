@@ -6,10 +6,11 @@ ENV MYSQL_ROOT_PASSWORD=password
 RUN apt-get update && apt-get install -y --fix-missing \
     php5 \
     php5-mysql \
+    php5-curl \
+    php5-common \
     apache2 \
     mysql-server \
-    curl \
-    vim
+    curl
 
 COPY sql/bad.sql /bad.sql
 
