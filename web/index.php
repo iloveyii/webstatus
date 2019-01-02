@@ -4,14 +4,14 @@ require_once "config/app.php";
 require_once "vendor/autoload.php";
 
 use App\Models\Database;
+use App\Models\Fetch;
 use App\Models\Log;
 use App\Models\View;
-use App\Models\Webstatus;
 use Rhumsaa\Uuid\Uuid;
 
 // Make log file error.log clear
 Log::clear();
-
+exit;
 // User input validation
 $debug = (isset($_GET['debug']) && is_numeric($_GET['debug'])) ? (int)$_GET['debug'] : false;
 
@@ -32,7 +32,7 @@ if (isset($_GET['site']) && is_numeric($_GET['site'])) {
 // Connect to database and fetch rows
 $rows = Database::connect()->selectAll($sql);
 
-$fetch = new Webstatus($rows);
+$fetch = new \App\Models\Webstatus($rows);
 $statuses = $fetch->getWebsitesStatuses();
 
 $uuid = Uuid::uuid1();
@@ -42,5 +42,5 @@ if ($debug) {
 }
 
 View::render('index', $statuses, $uuid);
-
+echo 'hifafasfdsafa';
 

@@ -17,19 +17,16 @@ final class Database
     {
         $db = null;
 
-        if( isset(self::$instance) ) {
+        if (isset(self::$instance)) {
             return self::$instance;
         }
 
-        try
-        {
-            $connectionString =  sprintf("mysql:host=%s;dbname=%s;charset=utf8;", DB_HOST, DB_NAME);
+        try {
+            $connectionString = sprintf("mysql:host=%s;dbname=%s;charset=utf8;", DB_HOST, DB_NAME);
             $db = new \PDO($connectionString, DB_USER, DB_PASS);
             $db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             Log::write('Database connected successfully', INFO);
-        }
-        catch (exception $e)
-        {
+        } catch (exception $e) {
             throw new Exception($e->getMessage());
         }
 
@@ -58,9 +55,7 @@ final class Database
             $this->lastId = $this->db->lastInsertId();
             $this->numRows = count($result) - 1;
             return $result;
-        }
-        catch (PDOException $e)
-        {
+        } catch (PDOException $e) {
             throw new Exception($e->getMessage() + $query);
         }
     }
@@ -74,9 +69,7 @@ final class Database
             $this->lastId = $this->db->lastInsertId();
             $this->numRows = count((array)$result);
             return $result;
-        }
-        catch (PDOException $e)
-        {
+        } catch (PDOException $e) {
             throw new Exception($e->getMessage() + $query);
         }
     }
@@ -87,9 +80,7 @@ final class Database
             $stmt = $this->db->prepare($query);
             $result = $stmt->execute($params);
             return $result;
-        }
-        catch (PDOException $e)
-        {
+        } catch (PDOException $e) {
             throw new Exception($e->getMessage() + $query);
         }
     }
@@ -101,34 +92,25 @@ final class Database
             $num = $stmt->execute($params);
             $this->numRows = $num;
             return $num;
-        }
-        catch (PDOException $e)
-        {
+        } catch (PDOException $e) {
             throw new Exception($e->getMessage() + $query);
-        }
-        catch( Exception $e)
-        {
+        } catch (Exception $e) {
             throw new Exception($e->getMessage() + $query);
         }
     }
 
-    public function insert($query, $params=[])
+    public function insert($query, $params = [])
     {
         self::connect();
 
-        try
-        {
+        try {
             $sth = $this->db->prepare($query);
             $sth->execute($params);
             $this->lastId = $this->db->lastInsertId();
             return $this->lastId;
-        }
-        catch(PDOException $e)
-        {
+        } catch (PDOException $e) {
             throw new Exception($e->getMessage() + $query);
-        }
-        catch( Exception $e)
-        {
+        } catch (Exception $e) {
             throw new Exception($e->getMessage() + $query);
         }
     }
@@ -138,13 +120,9 @@ final class Database
         try {
             $num = $this->db->exec($query);
             return $num;
-        }
-        catch (PDOException $e)
-        {
+        } catch (PDOException $e) {
             throw new Exception($e->getMessage() + $query);
-        }
-        catch( Exception $e)
-        {
+        } catch (Exception $e) {
             throw new Exception($e->getMessage() + $query);
         }
     }

@@ -13,7 +13,7 @@ ini_set('display_errors', 1);
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'bad');
 define('DB_USER', 'root');
-define('DB_PASS', 'root1@3M');
+define('DB_PASS', '');
 
 /**
  * Set log level here for Log class
