@@ -1,0 +1,12 @@
+version: '2'
+services:
+    bad-coding:
+      container_name: bad-coding
+      tty: true
+      build:
+        context: .
+      volumes:
+        - .:/var/www/html
+        - /var/lib/mysql
+      ports:
+        - "8888:80"

@@ -1,0 +1,48 @@
+I'm going to be very honest here. At CoolStuff we have some legacy code that we are not exactly proud of. Unfortunately, this code still has to be maintained while we make our way to a more modern way of doing things. The test you are about to do was made using horrific examples of issues we've found in our own code.
+
+==How to run this code==
+
+You need to install docker and docker-compose.
+
+Version of docker used when building this test was: "18.09.0"
+Version of docker-compose was: "1.22.0"
+
+You are not required to use the same versions, just in case you run into trouble.
+
+Installing docker https://docs.docker.com/install/
+Installing docker-compose https://docs.docker.com/compose/install/
+
+You are not required to be an expert on docker, so if you run into any problems, don't be afraid to ask for help.
+
+Runnig the following command in the project folder should be enough to get you up and running.
+
+docker-compose up -d
+
+After this you can access the site on http://0.0.0.0:8888/
+
+
+==Goal for this test==
+
+* You should modernize this application to comply with today's standards.
+
+* You should try to solve potential bugs and vulnerabilities.
+
+* You should structure the code so that it looks clean and is easy to maintain.
+
+
+==Requirements==
+
+* When I (the reviewer) review your results later, I should still be able to run this using "docker-compose up -d", and access it using http://0.0.0.0:8888.
+
+* The logic part of this application should be written in PHP.
+
+* You are not allowed to introduce any new libraries/dependencies/frameworks, with the exception of common PHP extensions that can be installed using php-* (php-json, php-mysql, php-xml ... etc. Basically we want you to write pure PHP and not rely on third-party libraries or frameworks). You are allowed to make use of external build tools, package managers and all of the sorts, however.
+
+* The main functionality of the application must still be the same after you are done. That is, it needs to fetch URLs from the MySQL database, then check the status of every page and return a result. After this it should display a unique UUID for the current session.
+
+* Your result must be PSR-1 and PSR-2 compliant.
+
+
+==Other==
+
+You are not limited to only changing the code. If you want to change the docker configuration, web server and so on, you are free to do so. As long as the above requirements are still met when you are done, go nuts.
