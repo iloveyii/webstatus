@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 /**
  * Set error reporting in dev mode
  */
@@ -13,7 +13,7 @@ ini_set('display_errors', 1);
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'bad');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PASS', 'root1@3M');
 
 /**
  * Set log level here for Log class

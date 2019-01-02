@@ -13,7 +13,7 @@ class Fetch
         $this->data = array_combine($values, $values);
     }
 
-    public function getStatuses()
+    public function getWebsitesStatuses()
     {
         $curlEnabled = function_exists('curl_version');
         $statuses = array();
@@ -74,7 +74,7 @@ class Fetch
         foreach ($curly as $id => $c) {
             curl_multi_getcontent($c);
             $httpCode = curl_getinfo($c, CURLINFO_HTTP_CODE);
-            $statuses[$id] = $httpCode;
+            $statuses[$id] = $httpCode === 200 ? true : false;
             curl_multi_remove_handle($mh, $c);
         }
 
