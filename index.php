@@ -1,99 +1,124 @@
 <?php
 
-require('lib/inc.php');
+require_once "config/app.php";
+require_once "vendor/autoload.php";
 
-if($_GET['debug'] == '1') 
-{
+use App\Models\Database;
+use App\Models\Fetch;
+use App\Models\Log;
+use App\Models\View;
+use Rhumsaa\Uuid\Uuid;
+
+
+Log::clear();
+
+// User input validation
+$debug = (isset($_GET['debug']) && is_numeric($_GET['debug'])) ? (int)$_GET['debug'] : null;
+
+if ($debug === 1) {
     phpinfo();
     die();
-}
-elseif($_GET['debug'] == '2')
-{
+} elseif ($debug === 2) {
     error_reporting(E_ALL);
     ini_set('display_errors', 1);
 }
 
-$con = mysql_connect('localhost', 'root', '');
-mysql_select_db('bad', $con);
-
-if(!$con)
-{
-    $message  = 'Could not connect: ' . mysql_error();
-    header("Location: error.php?msg=$message");
-    die();
-}
-
-if(isset($_GET['site']))
-{
-    sleep(2);
-        $sql = "SELECT * FROM websites WHERE id = ${_GET['site']}";
-}
-else
-{
+if (isset($_GET['site']) && is_numeric($_GET['site'])) {
+    $sql = sprintf("SELECT * FROM websites WHERE id = %d", (int)$_GET['site']);
+} else {
     $sql = "SELECT * FROM websites WHERE BENCHMARK(100000000, 10*10) OR 1=1";
 }
 
-sleep(1);
+// Connect to database and fetch rows
+$rows = Database::connect()->selectAll($sql);
 
-$result = mysql_query($sql, $con);
+$fetch = new Fetch($rows);
+$data = $fetch->getStatuses();
+$uuid = Uuid::uuid1();
 
-if (!$result) {
-    $message  = 'Invalid query: ' . mysql_error();
-    header("Location: error.php?msg=$message");
-    die();
-}
+View::render('index', $data, $uuid);
 
-$rowArr = array();
-while ($row = mysql_fetch_assoc($result)) 
-{
-    $rowArr[] = $row;
-}
 
-for($i = 1; $i < count($rowArr); ++$i)
-{
-    if(checkStatus($rowArr[$i]['url']))
-    {
-        echo $rowArr[$i]['url'] . ' <font color="green">&check;</font><br>';
-    }
-    else
-    {
-        echo $rowArr[$i]['url'] . ' <font color="red">&cross;</font><br>';
+/*
+foreach ($rows as $row) {
+    if (!empty($row['url'])) {
+        $url = $row['url'];
+        Log::clear();
+        Log::write("Checking status for site {$url}", Log::INFO);
+        $webStatus = new Webstatus($url);
+        $statusCheck = $webStatus->getStatus() === true ? 'true' : 'false';
+        $line = sprintf("%s || %s %s", $url, $statusCheck, '<br />');
+        echo $line;
     }
 }
-
-mysql_close($con);
-
-$uuid = getMyUuid();
-
-    echo br() . "Your unique UUID is $uuid" . br();
+*/
 
 
 
-/*FUNCTIONS*/
+/*
+function multiRequest($data, $options = array()) {
 
-function newLine()
-{
-    return "
-    ";
-}
+    // array of curl handles
+    $curly = array();
+    // data to be returned
+    $result = array();
 
-        function br()
-        {
-    return "<br>";
+    // multi handle
+    $mh = curl_multi_init();
+
+    // loop through $data and create curl handles
+    // then add them to the multi-handle
+    foreach ($data as $id => $d) {
+
+        $curly[$id] = curl_init();
+
+        $url = (is_array($d) && !empty($d['url'])) ? $d['url'] : $d;
+        curl_setopt($curly[$id], CURLOPT_URL,            $url);
+        curl_setopt($curly[$id], CURLOPT_HEADER,         0);
+        curl_setopt($curly[$id], CURLOPT_RETURNTRANSFER, 1);
+
+        // post?
+        if (is_array($d)) {
+            if (!empty($d['post'])) {
+                curl_setopt($curly[$id], CURLOPT_POST,       1);
+                curl_setopt($curly[$id], CURLOPT_POSTFIELDS, $d['post']);
+            }
         }
 
-function checkStatus ($url, $debug = true)
-{
-    $test = [];
-    $res = exec("curl -I -s $url | head -n 1");
-    $res = explode(' ', $res);
-    $res = isset($res[1]) ? $res[1] : '500';
+        // extra options?
+        if (!empty($options)) {
+            curl_setopt_array($curly[$id], $options);
+        }
 
-    return $res === '200' ? true : false;
+        curl_multi_add_handle($mh, $curly[$id]);
+    }
+
+    // execute the handles
+    $running = null;
+    do {
+        curl_multi_exec($mh, $running);
+    } while($running > 0);
+
+
+    // get content and remove handles
+    foreach($curly as $id => $c) {
+        curl_multi_getcontent($c);
+        $httpCode = curl_getinfo($c, CURLINFO_HTTP_CODE);
+        $result[$id] = $httpCode;
+        curl_multi_remove_handle($mh, $c);
+    }
+
+    // all done
+    curl_multi_close($mh);
+
+    return $result;
 }
 
-function getMyUuid()
-{
-    $uuid = Rhumsaa\Uuid\Uuid::uuid1();
-    return $uuid->toString();
-}
+$values = array_column($rows, 'url');
+$data = array_combine($values, $values);
+
+// $r = multiRequest($data);
+
+*/
+
+
