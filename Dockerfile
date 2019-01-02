@@ -13,4 +13,4 @@ RUN apt-get update && apt-get install -y --fix-missing \
 
 COPY sql/bad.sql /bad.sql
 
-ENTRYPOINT service mysql start && mysql -u root -e "CREATE DATABASE bad;" && mysql -u root bad < /bad.sql && apachectl -D FOREGROUND
+ENTRYPOINT service mysql start && mysql -u root -e "CREATE DATABASE IF NOT EXISTS bad;" && mysql -u root bad < /bad.sql && apachectl -D FOREGROUND
