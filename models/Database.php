@@ -49,7 +49,7 @@ final class Database
      * @param array $params associative array of params
      * @return mixed array of rows
      */
-    public function selectAll($query, $params)
+    public function selectAll($query, $params = [])
     {
         try {
             $sth = $this->db->prepare($query);

@@ -10,7 +10,7 @@ if($_GET['debug'] == '1')
 elseif($_GET['debug'] == '2')
 {
     error_reporting(E_ALL);
-         ini_set('display_errors', 1);
+    ini_set('display_errors', 1);
 }
 
 $con = mysql_connect('localhost', 'root', '');

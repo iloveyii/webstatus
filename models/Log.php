@@ -5,6 +5,12 @@ namespace App\Models;
 
 class Log
 {
+    const NONE = 0;
+    const INFO = 1;
+    const WARN = 2;
+    const CRITICAL = 3;
+    const ALL = 4;
+
     /**
      * @var Log
      */
@@ -17,11 +23,11 @@ class Log
      * @var array
      */
     private static $errorLevels = [
-        NONE=> 'NONE',
-        INFO=>'INFO',
-        WARN=>'WARN',
-        CRITICAL=>'CRITICAL',
-        ALL=>'ALL'
+        NONE => 'NONE',
+        INFO => 'INFO',
+        WARN => 'WARN',
+        CRITICAL => 'CRITICAL',
+        ALL => 'ALL'
     ];
 
     /**
@@ -34,7 +40,7 @@ class Log
      */
     public static function write($message, $level)
     {
-        if($level === ERROR_LOG_LEVEL || ERROR_LOG_LEVEL === ALL) {
+        if ($level === ERROR_LOG_LEVEL || ERROR_LOG_LEVEL === ALL) {
             return self::writeToFile($message, $level);
         }
 
@@ -44,14 +50,15 @@ class Log
     private static function getFilePath()
     {
         $dirPath = realpath(dirname(dirname(__FILE__)));
-        $filePath = sprintf("%s/%s/%s", $dirPath, 'web', self::$fileName);
+        // $filePath = sprintf("%s/%s/%s", $dirPath, 'web', self::$fileName);
+        $filePath = sprintf("%s/%s", '.', self::$fileName);
         return $filePath;
     }
 
     public static function clear()
     {
         $filePath = self::getFilePath();
-        if(file_exists($filePath)) {
+        if (file_exists($filePath)) {
             unlink($filePath);
             Log::write("Cleared log file", INFO);
         }
@@ -72,11 +79,12 @@ class Log
         $line = sprintf("%s\t%s\t%s%s", $levelName, date('Y-m-d h:i:s', time()), $message, PHP_EOL);
 
         $filePath = self::getFilePath();
+        echo $filePath;
 
-        if(is_writable(dirname($filePath)) ) {
+        if (is_writable(dirname($filePath))) {
 
             try {
-                if( file_exists($filePath)) {
+                if (file_exists($filePath)) {
                     $result = file_put_contents($filePath, $line, FILE_APPEND | LOCK_EX);
                 } else {
                     $result = file_put_contents($filePath, $line, FILE_APPEND | LOCK_EX);
