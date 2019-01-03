@@ -227,7 +227,7 @@
                             <div id="vue-app">
                                 <table class="table table-filter">
                                     <tbody>
-                                    <tr v-for="url in urls">
+                                    <tr v-for="url in urls" v-bind:data-status="url.status==1?'status200':'status500'">
                                         <td>{{url.id}}</td>
                                         <td>{{url.url}}</td>
                                         <td>
