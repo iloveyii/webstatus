@@ -231,16 +231,16 @@
                                         <td>{{url.id}}</td>
                                         <td>{{url.url}}</td>
                                         <td>
-                                            <span v-if="url.status==2" class="pull-right pagado">
-                                             <img style="height: 25px" src="/loading.svg" alt="loading...">
-                                            </span>
-
                                             <span v-if="url.status==0" class="pull-right cancelado">
-                                             (&#10007;)
+                                                (&#10007;)
                                             </span>
 
-                                            <span v-if="url.status==1" class="pull-right pagado">
-                                             (&#10004;)
+                                            <span v-else-if="url.status==1" class="pull-right pagado">
+                                                (&#10004;)
+                                            </span>
+
+                                            <span v-else class="pull-right pagado">
+                                                <img style="height: 25px" src="/loading.svg" alt="loading...">
                                             </span>
                                         </td>
                                     </tr>

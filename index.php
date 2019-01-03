@@ -39,6 +39,9 @@ if(isset($_GET['format']) && ($_GET['format'] == 'json')) {
     if (isset($_GET['site']) && is_numeric($_GET['site'])) {
         $fetch = new Webstatus($rows);
         $statuses = $fetch->getWebsitesStatuses();
+        if($debug) {
+            sleep(rand(1,5));
+        }
         echo json_encode($statuses);
     } else {
         echo json_encode($rows);
