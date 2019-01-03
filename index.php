@@ -32,6 +32,21 @@ if (isset($_GET['site']) && is_numeric($_GET['site'])) {
 // Connect to database and fetch rows
 $rows = Database::connect()->selectAll($sql);
 
+// Return only data in json format
+if(isset($_GET['format']) && ($_GET['format'] == 'json')) {
+    header("Content-Type: application/json");
+
+    if (isset($_GET['site']) && is_numeric($_GET['site'])) {
+        $fetch = new Webstatus($rows);
+        $statuses = $fetch->getWebsitesStatuses();
+        echo json_encode($statuses);
+    } else {
+        echo json_encode($rows);
+    }
+
+    exit;
+}
+
 $fetch = new Webstatus($rows);
 $statuses = $fetch->getWebsitesStatuses();
 
