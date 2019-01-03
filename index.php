@@ -41,7 +41,9 @@ if (isset($_GET['data']) && ($_GET['data'] == 'urls')) {
     exit;
 
 } elseif(isset($_GET['data']) && ($_GET['data'] == 'statuses')) {
-        $fetch = new Webstatus($rows);
+    // Connect to database and fetch rows
+    $rows = Database::connect()->selectAll($sql);
+    $fetch = new Webstatus($rows);
         $statuses = $fetch->getWebsitesStatuses();
         if ($debug) {
             sleep(rand(1, 3));
