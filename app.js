@@ -14,9 +14,9 @@ new Vue({
                 this.urls = response.data;
                 this.urls = this.urls.map(function (url, index) {
                     url.status = 2;
-                    api.get('http://localhost:8888/index.php?format=json&debug=3&site='+url.id)
+                    api.get('http://localhost:8888/index.php?format=json&debug=3&site=' + url.id)
                         .then(function (response) {
-                            if(response.data) {
+                            if (response.data) {
                                 var key = Object.keys(response.data);
                                 var value = response.data[key];
                                 this.urls[index].status = value === true ? 1 : 0;

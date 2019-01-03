@@ -29,18 +29,18 @@ if (isset($_GET['site']) && is_numeric($_GET['site'])) {
     $sql = "SELECT * FROM websites WHERE BENCHMARK(100000000, 10*10) OR 1=1";
 }
 
-// Connect to database and fetch rows
-$rows = Database::connect()->selectAll($sql);
-
 // Return only data in json format
-if(isset($_GET['format']) && ($_GET['format'] == 'json')) {
+if (isset($_GET['format']) && ($_GET['format'] == 'json')) {
+    // Connect to database and fetch rows
+    $rows = Database::connect()->selectAll($sql);
+
     header("Content-Type: application/json");
 
     if (isset($_GET['site']) && is_numeric($_GET['site'])) {
         $fetch = new Webstatus($rows);
         $statuses = $fetch->getWebsitesStatuses();
-        if($debug) {
-            sleep(rand(1,5));
+        if ($debug) {
+            sleep(rand(1, 3));
         }
         echo json_encode($statuses);
     } else {
@@ -50,15 +50,8 @@ if(isset($_GET['format']) && ($_GET['format'] == 'json')) {
     exit;
 }
 
-$fetch = new Webstatus($rows);
-$statuses = $fetch->getWebsitesStatuses();
-
 $uuid = Uuid::uuid1();
 
-if ($debug) {
-    print_r($data);
-}
-
-View::render('index', $statuses, $uuid);
+View::render('vue', [], $uuid);
 
 
