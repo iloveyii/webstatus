@@ -23,35 +23,35 @@ if ($debug === 1) {
     ini_set('display_errors', 1);
 }
 
-if (isset($_GET['site']) && is_numeric($_GET['site'])) {
-    $sql = sprintf("SELECT * FROM websites WHERE id = %d", (int)$_GET['site']);
+$site = ( isset($_GET['site']) && is_numeric($_GET['site']) ) ? (int)$_GET['site'] : false;
+
+if ($site !== false) {
+    $sql = sprintf("SELECT * FROM websites WHERE id = %d", $site);
 } else {
     $sql = "SELECT * FROM websites WHERE BENCHMARK(100000000, 10*10) OR 1=1";
 }
 
-// Return only data in json format
-if (isset($_GET['format']) && ($_GET['format'] == 'json')) {
+// Return database data of urls OR statuses fetched by Webstatus
+if (isset($_GET['data']) && ($_GET['data'] == 'urls')) {
     // Connect to database and fetch rows
     $rows = Database::connect()->selectAll($sql);
 
     header("Content-Type: application/json");
+    echo json_encode($rows);
+    exit;
 
-    if (isset($_GET['site']) && is_numeric($_GET['site'])) {
+} elseif(isset($_GET['data']) && ($_GET['data'] == 'statuses')) {
         $fetch = new Webstatus($rows);
         $statuses = $fetch->getWebsitesStatuses();
         if ($debug) {
             sleep(rand(1, 3));
         }
         echo json_encode($statuses);
-    } else {
-        echo json_encode($rows);
-    }
-
     exit;
 }
 
+// Else return page
 $uuid = Uuid::uuid1();
-
 View::render('vue', [], $uuid);
 
 
