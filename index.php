@@ -31,7 +31,7 @@ if ($site !== false) {
     $sql = "SELECT * FROM websites WHERE BENCHMARK(100000000, 10*10) OR 1=1";
 }
 
-// Return database data of urls OR statuses fetched by Webstatus
+// JSON Requests - Return database data of urls OR statuses fetched by Webstatus
 if (isset($_GET['data']) && ($_GET['data'] == 'urls')) {
     // Connect to database and fetch rows
     $rows = Database::connect()->selectAll($sql);
@@ -41,7 +41,7 @@ if (isset($_GET['data']) && ($_GET['data'] == 'urls')) {
     exit;
 
 } elseif(isset($_GET['data']) && ($_GET['data'] == 'statuses')) {
-    // Connect to database and fetch rows
+    // Connect to database and fetch rows for websites and then find its status using Class Webstatus
     $rows = Database::connect()->selectAll($sql);
     $fetch = new Webstatus($rows);
         $statuses = $fetch->getWebsitesStatuses();
@@ -52,7 +52,7 @@ if (isset($_GET['data']) && ($_GET['data'] == 'urls')) {
     exit;
 }
 
-// Else return page
+// HTML Page - Else return page
 $uuid = Uuid::uuid1();
 View::render('vue', [], $uuid);
 

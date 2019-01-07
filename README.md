@@ -3,13 +3,12 @@ Webstatus
 Wbstatus is a small web app developed in PHP, JS, Vue to find out if the given list of websites are live.
 
 Demo is available [here](http://pct.softhem.se/).
-There is a free web based remote which helps in controlling the ePlayer. You can download the Ubuntu [installer](http://eplayer.softhem.se/dist/linux/jsplayer.AppImage) and use the online remote control [here](http://eplayer.softhem.se/remote.html). You can also install it locally using the installation instructions given below.
 
-![ePlayer screen shot](http://eplayer.softhem.se/img/eplayer.png)
+![Wbstatus screen shot](http://pct.softhem.se/screen-shot.png)
 
 ## How it works
-   * We have developed a backend application in PHP which serves the API requests.  
-   * We have used MySQL database which saves the remote control commands and channels list of the user. 
+   * We have developed a backend MVC application in PHP which serves the API requests.  
+   * We have used MySQL database which saves the list of web sites control commands and channels list of the user. 
    * When the user clicks any button on the remote control (web based) sends the command (e.g change channel) to the server which is stored in the MySQL database. The ePlayer continuously reads commands from the server and executes it.
    
 ## Development tools
