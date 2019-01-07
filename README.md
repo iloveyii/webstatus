@@ -8,28 +8,32 @@ Demo is available [here](http://pct.softhem.se/).
 
 ## How it works
    * We have developed a backend MVC application in PHP which serves the API requests.  
-   * We have used MySQL database which saves the list of web sites control commands and channels list of the user. 
-   * When the user clicks any button on the remote control (web based) sends the command (e.g change channel) to the server which is stored in the MySQL database. The ePlayer continuously reads commands from the server and executes it.
+   * We have used MySQL database which saves the list of web sites. 
+   * When the user loads the application using web browser, it first fetch a list of websites and then makes ajax requests to backend to fetch web status.
    
 ## Development tools
-   * We used PhpStorm IDE, Git, Composer, PHP 7.2, Node, Ubuntu and Apache2 for development environment.
-   * On programming side we used Javascript, Vue, Php, Mysql.
+   * We used PhpStorm IDE, Git, Composer, PHP 5.6, Docker, Ubuntu and Apache2 for development environment.
+   * On programming side we used Javascript, jQuery, BS 3, Vue, Php, Mysql.
      
 ## Setup and first run
 
-  * Clone the repository `git clone git@github.com:iloveyii/ePlayer.git`.
-  * Run npm install in the root directory `npm install`.
-  * Run npm script to see player window in the root directory `npm start`.
-  * Make a virtual host ( you may use [vh](https://github.com/iloveyii/vh)) pointing to server/web OR cd to server/web directory and run `php -S localhost:8080`.
-  * Create a database (manually for now) and adjust the database credentials in the `config/app.php` file as per your environment.
-  * Run composer the server directory `composer dump-autoload`.
-  * Run (inside directory : server/) the init command to create the database tables as `php init.php`.
-  * Browse to [http://localhost:8080/remote.html](http://localhost:8080/remote.html) to see remote control.
-  * Browse to [http://localhost:8080/?data=channel](http://localhost:8080/?data=channel) to see data about channels.
+  * Clone the repository `https://github.com/iloveyii/webstatus`.
+  * Run composer the root directory `composer dump-autoload`.
+  * You need to install docker and docker-compose. To run  `docker-compose up -d`. After this you can access the site on http://0.0.0.0:8888/.
   
-For more information about using Composer please see its [documentation](http://getcomposer.org/doc/).
+DEMO is here [DEMO](http://pct.softhem.se/).
 
-DEMO is here [DEMO](http://eplayer.softhem.se/remote.html).
+## Task Description
+    
+   * You should modernize this application to comply with today's standards.
+   * You should try to solve potential bugs and vulnerabilities.
+   * You should structure the code so that it looks clean and is easy to maintain.
+   * When I (the reviewer) review your results later, I should still be able to run this using "docker-compose up -d", and access it using http://0.0.0.0:8888.
+   * The logic part of this application should be written in PHP.
+   * You are not allowed to introduce any new libraries/dependencies/frameworks, with the exception of common PHP extensions that can be installed using php-* (php-json, php-mysql, php-xml ... etc. Basically we want you to write pure PHP and not rely on third-party libraries or frameworks). You are allowed to make use of external build tools, package managers and all of the sorts, however.
+   * The main functionality of the application must still be the same after you are done. That is, it needs to fetch URLs from the MySQL database, then check the status of every page and return a result. After this it should display a unique UUID for the current session.
+   * Your result must be PSR-1 and PSR-2 compliant.
+   * You are not limited to only changing the code. If you want to change the docker configuration, web server and so on, you are free to do so. As long as the above requirements are still met when you are done, go nuts.
 
 ## Overall Structure
 
@@ -37,33 +41,17 @@ Bellow the directory structure used:
 
 ```
 
-   |-app
-   |--assets
-   |---css
-   |---img
-   |---js
-   |-main.js
-   |-server
-   |--config
-   |--models
-   |--web
-   |--composer.json
-   |--init.php
+   |-config
+   |-lib
+   |-models
+   |-views
+   |-web
+   |-app.js
+   |-composer.json
+   |-Dockerfile
+   |-index.php
+   |-README.md
    
 ```
-
-## Requirements
-   * The application has been tested with apache2 virtual hosts so it is recommended.
-   * You need to enable mode rewrite and use the file `.htaccess` in the web directory.
-   * Point your web server ( wwwroot ) to backend/src/web directory for the backend application.
-   * Make web directory writable for web server user (www-data in apache), to enable logging.
-   * Disable displaying errors in config/app.php.
-   * PHP 7.2
-   * Apache 2
-   * MySql 5.6
-   * Node 11.6.0
-   * Electron 4.0.0
-   
-  
- <i>Web streaming is fun.</i>  
+ 
  [Hazrat Ali](http://blog.softhem.se/) 
