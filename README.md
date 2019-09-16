@@ -2,9 +2,9 @@ Webstatus
 =======
 Wbstatus is a small web app developed in PHP, JS, Vue to find out if the given list of websites are live.
 
-Demo is available [here](http://pct.softhem.se/).
+Demo is available [here](http://vue.softhem.se/).
 
-![Wbstatus screen shot](http://pct.softhem.se/screen-shot.png)
+![Wbstatus screen shot](http://vue.softhem.se/screen-shot.png)
 
 ## How it works
    * We have developed a backend MVC application in PHP which serves the API requests.  
@@ -21,7 +21,7 @@ Demo is available [here](http://pct.softhem.se/).
   * Run composer the root directory `composer dump-autoload`.
   * You need to create a database and make changes in config/app.php accordingly. You  can import the required sql from sql/bad.sql.
   
-DEMO is here [DEMO](http://pct.softhem.se/).
+DEMO is here [DEMO](http://vue.softhem.se/).
 
 ## Task Description
     
