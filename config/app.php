@@ -13,7 +13,7 @@
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'bad');
 define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_PASS', 'root');
 
 /**
  * Set log level here for Log class

@@ -19,7 +19,7 @@ Demo is available [here](http://pct.softhem.se/).
 
   * Clone the repository `https://github.com/iloveyii/webstatus`.
   * Run composer the root directory `composer dump-autoload`.
-  * You need to install docker and docker-compose. To run  `docker-compose up -d`. After this you can access the site on http://0.0.0.0:8888/.
+  * You need to create a database and make changes in config/app.php accordingly. You  can import the required sql from sql/bad.sql.
   
 DEMO is here [DEMO](http://pct.softhem.se/).
 
